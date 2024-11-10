@@ -120,7 +120,6 @@ DEPTH = 6
 WIDTH = 256
 MAX = 999
 test_vals = ones(WIDTH)
-# random_vals = normalize(randomize(WIDTH, MAX), MAX)
 
 model = init_model(test_vals, WIDTH, DEPTH, DEPTH)
 

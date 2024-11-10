@@ -16,8 +16,8 @@ def identity(x):
     
 # inits a LAYER to be all zeros.
 # does NOT init a model
-def zeros(num_vals: u24) -> Map(T):
-    bend num_vals:
+def zeros(num_vals: u24) -> Map(f24):
+    switch num_vals:
         case 0:
             return Map(f24)/Leaf
         case _:
@@ -28,7 +28,7 @@ def zeros(num_vals: u24) -> Map(T):
 # inits a LAYER to be all ones.
 # does NOT init a model. 
 def ones(num_vals: u24) -> Map(f24):
-    bend num_vals:
+    switch num_vals:
         case 0:
             return Map(f24)/Leaf
         case _:
@@ -40,7 +40,7 @@ def ones(num_vals: u24) -> Map(f24):
 # used during the init_model function to create layers of neurons
 # dont need to use it if you're just initializing a model.
 def init_layer(vals: Map(f24), num_vals: u24) -> Map(f24):
-    bend num_vals:
+    switch num_vals:
         case 0:
             return Map(f24)/Leaf
         case _:

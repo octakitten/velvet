@@ -53,7 +53,7 @@ def init_layer(vals: Map(f24), num_vals: u24) -> Map(f24):
 # this is the function you'll use to actually create a model with specific params.
 # i'll probably make a wrapper function at some point though
 def init_model(vals: Map(f24), num_vals: u24, steps: u24, max: u24) -> Model(f24): 
-    bend steps:
+    switch steps:
         case max:
             model = Model(f24)/Root(
                 ones(num_vals),

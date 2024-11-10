@@ -1,32 +1,32 @@
 # {
-    Our first order of business is to implement a hash function that will
-    allow us to generate pseudo random batches of numbers that can be
-    used in the model's arrays as individual values.
+#   Our first order of business is to implement a hash function that will
+#   allow us to generate pseudo random batches of numbers that can be
+#   used in the model's arrays as individual values.
 
-    the function should be one to one across a certain useful domain
-    that we like, namely it should be one to one across a domain
-    inclusive of the highest possible value for an int24 number, since 
-    thats what we'll be using for parameter values.
+#   the function should be one to one across a certain useful domain
+#   that we like, namely it should be one to one across a domain
+#   inclusive of the highest possible value for an int24 number, since 
+#   thats what we'll be using for parameter values.
 
-    we'll need to measure this hash function to make sure that it has a decent
-    distribution across our domain, although we're mostly interested in the lower
-    half of the range, rather than the upper half. i dont expect the model will like
-    to use large numbers in its parameters much.
+#   we'll need to measure this hash function to make sure that it has a decent
+#   distribution across our domain, although we're mostly interested in the lower
+#   half of the range, rather than the upper half. i dont expect the model will like
+#   to use large numbers in its parameters much.
 
-    we'll also need to use the cryptographic functions of the operating system 
-    to seed the hash table somehow. im thinking that will have to be a 
-    command line input to the program, maybe. we'll see
+#   we'll also need to use the cryptographic functions of the operating system 
+#   to seed the hash table somehow. im thinking that will have to be a 
+### command line input to the program, maybe. we'll see
 
-    so, qualities of our hash function that we need:
-    - an even distribution across the range 0 <= y <= max(int24)
-    (whatever that is) from the domain 0 => max(uint24)
-    - able to be seeded by a random int24 number which will offset its output
-    in a pseudo random fashion while also preserving its other properties
+#   so, qualities of our hash function that we need:
+#   - an even distribution across the range 0 <= y <= max(int24)
+#   (whatever that is) from the domain 0 => max(uint24)
+#   - able to be seeded by a random int24 number which will offset its output
+#   in a pseudo random fashion while also preserving its other properties
     
-    okay, looks like we can use multiplicative hashing to get what we want here
-    we'll need to write some C code to do this for us and then call the 
-    executable from within bend, but i think we can do that now well enough
-    time to get to work
+#   okay, looks like we can use multiplicative hashing to get what we want here
+#   we'll need to write some C code to do this for us and then call the 
+#   executable from within bend, but i think we can do that now well enough
+#   time to get to work
 # }
 
 # import ./hashing.bend

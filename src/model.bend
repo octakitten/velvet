@@ -27,7 +27,7 @@ def zeros(num_vals: u24) -> Map(T):
 
 # inits a LAYER to be all ones.
 # does NOT init a model. 
-def ones(num_vals: u24) -> Map(T):
+def ones(num_vals: u24) -> Map(f24):
     bend num_vals:
         case 0:
             return Map(f24)/Leaf

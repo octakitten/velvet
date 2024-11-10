@@ -119,9 +119,8 @@ import ./model.bend
 DEPTH = 6
 WIDTH = 256
 MAX = 999
-test_vals = ones(WIDTH)
 
-model = init_model(test_vals, WIDTH, DEPTH, DEPTH)
+model = init_model(ones(WIDTH), WIDTH, DEPTH, DEPTH)
 
 # {
 #   alright, we've initialized the model.

@@ -2,7 +2,7 @@
 import ./converting.bend
 
 # datastructure that contains all our models parameters.
-# when you create one of these, you will need to keep track of its "Depth" property 
+# when you create one of these, you will need to keep track of its "Depth" property
 # in the top level. its not stored anywhere in the model itself, but still needed
 # to do things like save the model to disk
 type Model(T):
@@ -30,7 +30,7 @@ def zeros(num_vals: u24) -> Map(i24):
         )
 
 # inits a LAYER to be all ones.
-# does NOT init a model. 
+# does NOT init a model.
 def ones(num_vals: u24) -> Map(i24):
   switch num_vals:
     case 0:
@@ -101,8 +101,8 @@ def powseries(exp: u24) -> u24:
     case _:
       retval += 2.0 ** to_f24(exp)
       count -= 1
-    
-  
+
+
 # the mathematical representation of a neuron firing
 # its values depend on the state of other neurons in subsequent layers
 def arctan(a: f24, b: f24, x: f24) -> f24:
@@ -122,7 +122,7 @@ def conditional_plus(a: i24, b: i24, c: i24) -> i24:
 def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Map(i24):
   match model1:
     case Model/Root:
-      model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at) 
+      model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at)
       model1.left = accumulate(model1.left, model2.left)
       model1.right = accumulate(model1.right, model2.right)
     case Model/Node:
@@ -134,7 +134,7 @@ def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Ma
   return model1
 
 
-# used in the update function 
+# used in the update function
 # this is what allows the functions in the root neuron layer to talk to each other
 def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
   match layer:
@@ -150,7 +150,7 @@ def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
 
 # {
     it doesnt look like much, but this is where the magic happens, babyyyyy
-    it really does look kinda simple, especially compared to the hundreds of lines i used in the 
+    it really does look kinda simple, especially compared to the hundreds of lines i used in the
     definition of this function in the Silky project.
 
     anyway, you just have to run this function when you want the model to do something.
@@ -197,7 +197,7 @@ def gen_mdl_dir(model: Model(i24), path String, depth: u24, count: u24):
         gen_layer_file(model.at, path)
     return
 
-# here we actually save the layer file to disk 
+# here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
 def gen_layer_file(layer: Map(i24), path: String):

@@ -14,7 +14,7 @@ type Model(T):
 # you know i honestly dont know what this is for
 def identity(x):
   return x
-    
+
 # inits a LAYER to be all zeros.
 # does NOT init a model
 def zeros(num_vals: u24) -> Map(i24):
@@ -156,6 +156,7 @@ def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
     that is, after you fed it an input image or file.
     we'll figure out an output layer eventually.
 # }
+
 def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
   match model:
     case Model/Root:
@@ -169,7 +170,7 @@ def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
     case Model/Leaf:
       upper.at = upper.at + model.at
   return model
-                
+
 # this function here is used to arrange the layers into usable places so that we can save them to the disk more easily
 # eventually we'll have to find a way of actually loading after we've saved but we'll burn that bridge when we get there
 def gen_mdl_dir(model: Model(i24), path String, depth: u24, count: u24):
@@ -226,6 +227,5 @@ def save(model: Model(i24), name: String, depth: u24):
     command = "mkdir -p " + path
     response = bash(port, command)
     close_bash(port)
-
     gen_mdl_dir(model, path, depth, 0)
     return

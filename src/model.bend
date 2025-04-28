@@ -93,11 +93,11 @@ SHIFT_STEPS = 6
 def powseries(exp: u24) -> u24:
   retval = 0.0
   switch exp:
+    case 0:
+      retval += 1.0
     case _:
       retval += 2.0 ** to_f24(exp)
       exp -= 1
-    case 0:
-      retval += 1.0
   return to_u24(retval)
 
 # the mathematical representation of a neuron firing

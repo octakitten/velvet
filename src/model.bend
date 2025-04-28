@@ -96,9 +96,10 @@ def powseries(exp: u24) -> u24:
   switch count:
     case 0:
       retval += 1.0
-      case _:
-        retval += 2.0 ** to_f24(exp)
-        count -= 1
+      count = 0
+    case _:
+      retval += 2.0 ** to_f24(exp)
+      count -= 1
   return to_u24(retval)
 
 # the mathematical representation of a neuron firing

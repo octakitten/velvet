@@ -16,35 +16,35 @@ def identity(x):
     
 # inits a LAYER to be all zeros.
 # does NOT init a model
-def zeros(num_vals: u24) -> Map(f24):
+def zeros(num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(f24)/Leaf
+            return Map(i24)/Leaf
         case _:
-            return Map(f24)/Node(
+            return Map(i24)/Node(
                 0.0,
                 zeros(num_vals - 1)
 
 # inits a LAYER to be all ones.
 # does NOT init a model. 
-def ones(num_vals: u24) -> Map(f24):
+def ones(num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(f24)/Leaf
+            return Map(i24)/Leaf
         case _:
-            return Map(f24)/Neuron(
+            return Map(i24)/Neuron(
                 1.0,
                 ones(num_vals - 1)
 
 
 # used during the init_model function to create layers of neurons
 # dont need to use it if you're just initializing a model.
-def init_layer(vals: Map(f24), num_vals: u24) -> Map(f24):
+def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(f24)/Leaf
+            return Map(i24)/Leaf
         case _:
-            return Map(f24)/Node(
+            return Map(i24)/Node(
                 vals[num_vals],
                 init_layer(vals, num_vals - 1)
             )
@@ -52,21 +52,21 @@ def init_layer(vals: Map(f24), num_vals: u24) -> Map(f24):
 # bend doesnt define arrays, but it does "generate" lists and objects
 # this is the function you'll use to actually create a model with specific params.
 # i'll probably make a wrapper function at some point though
-def init_model(vals: Map(f24), num_vals: u24, steps: u24, max: u24) -> Model(f24): 
+def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24): 
     switch steps:
         case max:
-            model = Model(f24)/Root(
+            model = Model(i24)/Root(
                 ones(num_vals),
                 init_model(vals, num_vals, steps - 1, max),
                 init_model(vals, num_vals, steps - 1, max)
                 )
         case 0:
-            model = Model(f24)/Leaf(
+            model = Model(i24)/Leaf(
                 model.at = init_layer(vals, num_vals, type) 
                 )
             return model
         case _:
-            model = Model(f24)/Node(
+            model = Model(i24)/Node(
                 ones(num_vals),
                 init_model(vals, num_vals, steps - 1, max),
                 init_model(vals, num_vals, steps - 1, max)
@@ -95,9 +95,12 @@ def powseries(exp: u24) -> u24:
 def arctan(a: f24, b: f24, x: f24) -> f24:
     return (a * Math/atan(b * x))
 
+def plus(a: i24, b:i24) -> i24:
+    return (a + b)
+
 # used in the update function 
 # this is what allows the functions in the root neuron layer to talk to each other
-def layer_shift(layer: Map(f24), steps: u24) -> Map(f24):
+def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
     match layer:
         case Map/Node:
             switch steps:
@@ -118,13 +121,13 @@ def layer_shift(layer: Map(f24), steps: u24) -> Map(f24):
     that is, after you fed it an input image or file.
     we'll figure out an output layer eventually.
 # }
-def update(model: Model(f24), upper: Model(f24)) -> Model(f24):
+def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
     match model:
         case Model/Root:
-            model.at = arctan(model.left.at, model.right.at, model.at)
+            model.at = plus(model.left.at, model.right.at, model.at)
             model.at = layer_shift(model.at, SHIFT_STEPS)
         case Model/Node:
-            model.at = arctan(model.left.at, model.right.at, model.at)
+            model.at = plus(model.left.at, model.right.at, model.at)
             upper.at = upper.at + model.at
             update(model.left, model.at)
             update(model.right, model.at)
@@ -134,7 +137,7 @@ def update(model: Model(f24), upper: Model(f24)) -> Model(f24):
                 
 # this function here is used to arrange the layers into usable places so that we can save them to the disk more easily
 # eventually we'll have to find a way of actually loading after we've saved but we'll burn that bridge when we get there
-def gen_mdl_dir(model: Model(f24), path String, depth: u24, count: u24):
+def gen_mdl_dir(model: Model(i24), path String, depth: u24, count: u24):
     with IO:
         match model:
             case Model/Root:
@@ -160,7 +163,7 @@ def gen_mdl_dir(model: Model(f24), path String, depth: u24, count: u24):
 # here we actually save the layer file to disk 
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
-def gen_layer_file(layer: Map(f24), path: String):
+def gen_layer_file(layer: Map(i24), path: String):
     with IO:
         fdesc = IO/FS/open(path, "w")
         index = 0
@@ -181,7 +184,7 @@ def gen_layer_file(layer: Map(f24), path: String):
 # only works on linux though.
 # you did keep track of your model's depth in the top level of your program...
 # right?
-def save(model: Model(f24), name: String, depth: u24):
+def save(model: Model(i24), name: String, depth: u24):
     with IO:
         path = "models/" + name + ".vlt"
         port = open_bash()

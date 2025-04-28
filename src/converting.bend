@@ -6,8 +6,11 @@
     the ones you'll want to use are:
     u24_to_str
     f24_to_str
+    i24_to_str
     str_to_u24
     str_to_f24
+    str_to_i24
+
 # }
 
 def slice_numeral_f(num: f24) -> f24:
@@ -70,6 +73,12 @@ def u24_to_str(num: u24) -> String:
             return "9"
         case _:
             return ("" + u24_to_str(num / 10) + u24_to_str(slice_numeral_u(num)))
+
+def i24_to_str(num: i24) -> String:
+    if num < 0:
+        return ("-" + u24_to_str(Math/abs(num)))
+    else:
+        return u24_to_str(num)
 
 def slice_decimal(num: f24) -> f24:
     return Math/floor(num * 10.0)
@@ -196,4 +205,35 @@ def str_to_u24(str: String) -> u24:
             if slice >= 0:
                 retval += slice * to_u24(10.0 ** to_f24(count2))
             count2 += 1
+    return retval
+
+def str_to_i24(str: String) -> i24:
+    retval = 0
+    count = 0
+    is_negative = false
+    match str:
+        case String/Cons:
+            if str.head == "-":
+                is_negative = true
+                count += 1
+            else:
+                count += 1
+        case String/Nil:
+            count += 0
+    match str:
+        case String/Cons:
+            count += 1
+        case String/Nil:
+            count += 0
+    smap = str_to_map(str, count)
+    count2 = 0
+    switch count2:
+        case count:
+        case _:
+            slice = smap[count2].value
+            if slice >= 0:
+                retval += slice * to_i24(10.0 ** to_f24(count2))
+            count2 += 1
+    if is_negative:
+        retval = -retval
     return retval

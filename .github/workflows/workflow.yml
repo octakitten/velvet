@@ -1,0 +1,14 @@
+name: Bend Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [self0r-hosted, linux, x64]
+    container:
+

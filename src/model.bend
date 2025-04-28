@@ -9,6 +9,7 @@ type Model(T):
     Root { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
     Node { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
     Leaf { ~at: Map(T) }
+    None
 
 # you know i honestly dont know what this is for
 def identity(x):
@@ -19,10 +20,12 @@ def identity(x):
 def zeros(num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(i24)/Leaf
+            return Map(i24)/Leaf(
+                +0
+                )
         case _:
             return Map(i24)/Node(
-                0.0,
+                +0,
                 zeros(num_vals - 1)
 
 # inits a LAYER to be all ones.
@@ -30,10 +33,12 @@ def zeros(num_vals: u24) -> Map(i24):
 def ones(num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(i24)/Leaf
+            return Map(i24)/Leaf(
+                +1
+                )
         case _:
-            return Map(i24)/Neuron(
-                1.0,
+            return Map(i24)/Node(
+                +1,
                 ones(num_vals - 1)
 
 
@@ -42,7 +47,9 @@ def ones(num_vals: u24) -> Map(i24):
 def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
     switch num_vals:
         case 0:
-            return Map(i24)/Leaf
+            return Map(i24)/Leaf(
+                vals[num_vals]
+                )
         case _:
             return Map(i24)/Node(
                 vals[num_vals],
@@ -97,6 +104,29 @@ def arctan(a: f24, b: f24, x: f24) -> f24:
 
 def plus(a: i24, b:i24) -> i24:
     return (a + b)
+
+def conditional_plus(a: i24, b: i24, c: i24) -> i24:
+    if a > c:
+        return (a + b)
+    elif a < c:
+        return (a - b)
+    else:
+        return (a)
+
+def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Map(i24):
+    match model1:
+        case Model/Root:
+            model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at) 
+            model1.left = accumulate(model1.left, model2.left)
+            model1.right = accumulate(model1.right, model2.right)
+        case Model/Node:
+            model1.at = plus(model1.at, model2.at, model1.at)
+            model1.left = accumulate(model1.left, model2.left)
+            model1.right = accumulate(model1.right, model2.right)
+        case Model/Leaf:
+            model1.at = plus(model1.at, model2.at, model1.at)
+    return model1
+
 
 # used in the update function 
 # this is what allows the functions in the root neuron layer to talk to each other

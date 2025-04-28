@@ -143,12 +143,13 @@ def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Ma
 # this is what allows the functions in the root neuron layer to talk to each other
 def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
   dummy = +1
+  count = 0
   prev_val = layer.value
   match layer:
     case Map/Leaf:
       dummy = layer.value
     case Map/Node:
-    case _:
+      count += 1
   layer.value = dummy
   return layer_shift_helper(layer, prev_val, steps)
 

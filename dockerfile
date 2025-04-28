@@ -11,4 +11,4 @@ RUN cargo install hvm
 RUN cargo install bend-lang
 RUN git clone https://github.com/octakitten/velvet.git
 WORKDIR /velvet
-RUN make gpu
+RUN make

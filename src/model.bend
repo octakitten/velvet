@@ -81,7 +81,7 @@ def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24
           init_model(vals, num_vals, steps - 1, max),
           init_model(vals, num_vals, steps - 1, max)
           )
-      return model
+  return model
 
 # do you want the neurons to talk to lots of other neurons? make this higher
 # having problems with performance? make this lower

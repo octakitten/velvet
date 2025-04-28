@@ -148,6 +148,7 @@ def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
           layer.val = layer.val + layer.next.val
           return layer_shift(layer.next, steps - 1)
     case Map/Leaf:
+      return layer
 
 # {
     it doesnt look like much, but this is where the magic happens, babyyyyy

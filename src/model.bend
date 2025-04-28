@@ -100,8 +100,8 @@ def powseries(exp: u24) -> u24:
     case _:
       retval += 2.0 ** to_f24(exp)
       count -= 1
-  ret = to_u24(retval)
-  return ret
+    ret = to_u24(retval)
+    return ret
 
 # the mathematical representation of a neuron firing
 # its values depend on the state of other neurons in subsequent layers

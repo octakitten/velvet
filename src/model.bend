@@ -41,6 +41,7 @@ def ones(num_vals: u24) -> Map(i24):
       return Map(i24)/Node(
         +1,
         ones(num_vals - 1)
+        )
 
 
 # used during the init_model function to create layers of neurons

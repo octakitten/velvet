@@ -27,6 +27,7 @@ def zeros(num_vals: u24) -> Map(i24):
       return Map(i24)/Node(
         +0,
         zeros(num_vals - 1)
+        )
 
 # inits a LAYER to be all ones.
 # does NOT init a model. 

@@ -11,6 +11,10 @@ type Model(T):
   Leaf { ~at: Map(T) }
   None
 
+type Map(T):
+  Node { ~value: T, ~next: Map(T) }
+  Leaf { ~value: T }
+
 # you know i honestly dont know what this is for
 def identity(x):
   return x
@@ -138,17 +142,28 @@ def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Ma
 # used in the update function
 # this is what allows the functions in the root neuron layer to talk to each other
 def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
+  dummy = +1
+  prev_val = layer.value
   match layer:
-    case Map/Node:
-      switch steps:
-        case 0:
-          layer.val = layer.val + layer.next.val
-          return layer
-        case _:
-          layer.val = layer.val + layer.next.val
-          return layer_shift(layer.next, steps - 1)
     case Map/Leaf:
-      return layer
+      dummy = layer.value
+    case Map/Node:
+    case _:
+  layer.value = dummy
+  return layer_shift_helper(layer, prev_val, steps)
+
+def layer_shift_helper(current: Map(i24), prev_val: i24, steps: u24) -> Map(i24):
+  switch steps:
+    case 0:
+      current.value = prev_val
+      return current
+    case _:
+      dummy = current.value
+      current.value = prev_val
+      prev_val = dummy
+      steps -= 1
+      return layer_shift_helper(current, prev_val, steps)
+  
 
 # {
     it doesnt look like much, but this is where the magic happens, babyyyyy

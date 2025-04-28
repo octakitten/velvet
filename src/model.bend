@@ -61,11 +61,11 @@ def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
 # bend doesnt define arrays, but it does "generate" lists and objects
 # this is the function you'll use to actually create a model with specific params.
 # i'll probably make a wrapper function at some point though
-def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24): 
+def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24):
   switch steps:
     case 0:
       model = Model(i24)/Leaf(
-        model.at = init_layer(vals, num_vals, type) 
+        model.at = init_layer(vals, num_vals, type)
         )
       return model
     case _:

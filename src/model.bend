@@ -164,6 +164,8 @@ def layer_shift_helper2(current: Map(i24)) -> i24:
       return current.value
     case Map/Node:
       return layer_shift_helper2(current.next)
+    case _:
+      return +0
   
 
 # {

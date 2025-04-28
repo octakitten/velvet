@@ -120,7 +120,7 @@ DEPTH = 6
 WIDTH = 256
 MAX = 999
 
-model = init_model(ones(WIDTH), WIDTH, DEPTH, DEPTH)
+# model = init_model(ones(WIDTH), WIDTH, DEPTH, DEPTH)
 
 # {
 #   alright, we've initialized the model.

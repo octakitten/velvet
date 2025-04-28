@@ -75,7 +75,14 @@ def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24
         )
       return model
     case _:
-      model = Model(i24)/Node(
+      if steps == max:
+        model = Model(i24)/Root(
+          ones(num_vals),
+          init_model(vals, num_vals, steps - 1, max),
+          init_model(vals, num_vals, steps - 1, max)
+          )
+      else:
+        model = Model(i24)/Node(
           ones(num_vals),
           init_model(vals, num_vals, steps - 1, max),
           init_model(vals, num_vals, steps - 1, max)

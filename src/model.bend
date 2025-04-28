@@ -169,13 +169,13 @@ def layer_shift_helper2(current: Map(i24)) -> i24:
   
 
 # {
-    it doesnt look like much, but this is where the magic happens, babyyyyy
-    it really does look kinda simple, especially compared to the hundreds of lines i used in the
-    definition of this function in the Silky project.
-
-    anyway, you just have to run this function when you want the model to do something.
-    that is, after you fed it an input image or file.
-    we'll figure out an output layer eventually.
+#    it doesnt look like much, but this is where the magic happens, babyyyyy
+#    it really does look kinda simple, especially compared to the hundreds of lines i used in the
+#    definition of this function in the Silky project.
+#
+#    anyway, you just have to run this function when you want the model to do something.
+#    that is, after you fed it an input image or file.
+#    we'll figure out an output layer eventually.
 # }
 
 def update(model: Model(i24), upper: Model(i24)) -> Model(i24):

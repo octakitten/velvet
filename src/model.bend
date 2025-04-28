@@ -93,7 +93,7 @@ SHIFT_STEPS = 6
 def powseries(exp: u24) -> u24:
   retval = 0.0
   count = exp
-  match count:
+  switch count:
     case 0:
       retval += 1.0
       count = 0
@@ -105,8 +105,8 @@ def powseries(exp: u24) -> u24:
 
 # the mathematical representation of a neuron firing
 # its values depend on the state of other neurons in subsequent layers
-def arctan(a: f24, b: f24, x: f24) -> f24:
-  return (a * Math/atan(b * x))
+#def arctan(a: f24, b: f24, x: f24) -> f24:
+#  return (a * Math/atan(b * x))
 
 def plus(a: i24, b:i24) -> i24:
   return (a + b)

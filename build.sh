@@ -1,1 +1,1 @@
-docker build ./ -t dockerfile --tag "dockerfile-stage-2:latest" --debug --no-cache --progress=plain
+docker build ./ -t dockerfile --tag "dockerfile-stage-2:latest" --no-cache

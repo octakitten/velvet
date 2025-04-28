@@ -159,7 +159,7 @@ def layer_shift_helper(current: Map(i24), prev_val: i24, steps: u24) -> Map(i24)
       return layer_shift_helper(current, prev_val, steps)
 
 def layer_shift_helper2(current: Map(i24)) -> i24:
-  switch current:
+  match current:
     case Map/Leaf:
       return current.value
     case Map/Node:

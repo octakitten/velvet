@@ -1,5 +1,5 @@
-import ./file_ops.bend
-import ./converting.bend
+import file_ops
+import converting
 
 # datastructure that contains all our models parameters.
 # when you create one of these, you will need to keep track of its "Depth" property

@@ -222,12 +222,12 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
 def gen_layer_file(layer: Map(i24), path: String, index: u24):
   with IO:
     fdesc = IO/FS/open(path, "w")
-    if layer is Map/Node:
+    if layer == Map/Node:
       index += 1
       check = IO/FS/write(path, i24_to_str(layer.value))
       check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
       check = gen_layer_file(layer.next, path, index)
-    elif layer is Map/Leaf:
+    elif layer == Map/Leaf:
       index += 1
       check = IO/FS/write(path, i24_to_str(layer.value))
       check = True

@@ -148,6 +148,50 @@ def char_to_f24(str: String) -> f24:
     case String/Nil:
       return 0.0
 
+def char_to_u24(str: String) -> f24:
+  mode = 1.0
+  zero = to_str(0)
+  one = to_str(1)
+  two = to_str(2)
+  three = to_str(3)
+  four = to_str(4)
+  five = to_str(5)
+  six = to_str(6)
+  seven = to_str(7)
+  eight = to_str(8)
+  nine = to_str(9)
+  negative = "-"
+  
+  match str:
+    case String/Cons:
+      match str.head:
+        case zero.head:
+          return 0
+        case one.head:
+          return 1
+        case two.head:
+          return 2
+        case three.head:
+          return 3
+        case four.head:
+          return 4
+        case five.head:
+          return 5
+        case six.head:
+          return 6
+        case seven.head:
+          return 7
+        case eight.head:
+          return 8
+        case nine.head:
+          return 9
+        case negative.head:
+          return -1
+        case _:
+          return 0
+    case String/Nil:
+      return 0
+
 def str_to_map(str, count):
   bend count:
     when 0:
@@ -182,7 +226,7 @@ def smap_to_f24(smap, count, precision):
         flt += slice * (10.0 ** to_f24(count2))
         return smap_to_f24(smap, count, precision)
       else:
-        return smapto_f24(smap, count, precision)
+        return smap_to_f24(smap, count, precision)
     case _:
       if count2 <= precision:
         slice = get_at_index(smap, count2)
@@ -193,12 +237,11 @@ def smap_to_f24(smap, count, precision):
         else:
           count2 += 1
           return smap_to_f24(smap, count, precision)
-
       elif count2 <= count:
         slice = get_at_index(smap, count2)
         if slice >= 0.0:
+          flt += slice * (0.1 ** to_f24(count - count2))
           count2 += 1
-          flt += slice * (10.0 ** to_f24(count2))
           return smap_to_f24(smap, count, precision)
         else:
           count2 += 1
@@ -229,22 +272,25 @@ def get_precision(smap, count, precision) -> u24:
 # this one is good to use too
 def str_to_u24(str: String) -> u24:
   retval = 0
-  count = 0
-  match str:
-    case String/Cons:
-      count += 1
-    case String/Nil:
-      count += 0
-  smap = str_to_map(str, count)
+  count = str.length
   count2 = 0
-  switch count2:
-    case count:
-      case _:
-        slice = smap[count2].value
-        if slice >= 0:
-          retval += slice * to_u24(10.0 ** to_f24(count2))
-        count2 += 1
-  return retval
+  smap = str_to_map(str, count)
+  return smap_to_u24(smap, count, retval)
+
+def smap_to_u24(smap, count, retval) -> u24:
+  switch count:
+    case 0:
+      return retval
+    case _:
+      slice = char_to_u24(get_at_index(smap, smap.length - count))
+      if slice >= 0:
+        retval += slice * to_u24(10.0 ** to_f24(count))
+        count -= 1
+        return smap_to_u24(smap, count, retval)
+      else:
+        count -= 1
+        return smap_to_u24(smap, count, retval)
+
 
 def str_to_i24(str: String) -> i24:
   retval = 0

@@ -1,5 +1,5 @@
-import file_ops.bend
-import converting.bend
+import file_ops
+import converting
 
 # datastructure that contains all our models parameters.
 # when you create one of these, you will need to keep track of its "Depth" property
@@ -225,7 +225,7 @@ def gen_layer_file(layer: Layer(i24), path: String, index: u24):
     fdesc = IO/FS/open(path, "w")
     if layer == Layer/Node:
       index += 1
-      use check = IO/FS/write(path, i24_to_str(layer.value))
+      use check = IO/FS/write(path, converting.i24_to_str(layer.value))
       check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
       check = gen_layer_file(layer.next, path, index)
     elif layer == Layer/Leaf:

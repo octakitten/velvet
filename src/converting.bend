@@ -19,26 +19,27 @@ def slice_numeral_f(num: f24) -> f24:
   return slice
 
 def numerals_to_str_f(num: f24) -> String:
-  switch num:
-    case 0.0:
+  num2 = to_u24(num * 10.0)
+  switch num2:
+    case 0:
       return "0"
-    case 1.0:
+    case 1:
       return "1"
-    case 2.0:
+    case 2:
       return "2"
-    case 3.0:
+    case 3:
       return "3"
-    case 4.0:
+    case 4:
       return "4"
-    case 5.0:
+    case 5:
       return "5"
-    case 6.0:
+    case 6:
       return "6"
-    case 7.0:
+    case 7:
       return "7"
-    case 8.0:
+    case 8:
       return "8"
-    case 9.0:
+    case 9:
       return "9"
     case _:
       return ("" + numerals_to_str_f(num / 10) + numerals_to_str_f(slice_numeral_f(num)))

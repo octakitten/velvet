@@ -158,23 +158,46 @@ def str_to_map(str, count):
         str_to_map(str, count - 1)
         )
 
+def get_at_index(smap, index):
+  count = 0
+  match smap:
+    case Map/Leaf:
+      return smap.value
+    case Map/Node:
+      if count == index:
+        return smap.value
+      else:
+        count += 1
+        return get_at_index(smap.next, index)
+
 def smap_to_f24(smap, count, precision):
   flt = 0.0
+  remain = count - precision
   count2 = 0
   switch count2:
-    case precision:
-    case _:
-      slice = smap[count2].value
+    case 0:
+      slice = get_at_index(smap, count2)
       if slice >= 0.0:
-         flt += slice * (10.0 ** to_f24(count2))
+        flt += slice * (10.0 ** to_f24(count2))
       count2 += 1
-  switch count2:
-    case remain:
     case _:
-      slice = smap[count2].value
+      count2 += 1
+      if count2 <= precision:
+        slice = smap[count2].value
+        if slice >= 0.0:
+           flt += slice * (10.0 ** to_f24(count2))
+  switch count2:
+    case 0:
+      slice = get_at_index(smap, count2)
       if slice >= 0.0:
-        flt += slice * ( 0.1 ** to_f24(count2))
+        flt += slice * (0.1 ** to_f24(count2))
+      count2 += 1
+    case _:
       count2  += 1
+      if count2 <= remain:
+        slice = get_at_index(smap, count2)
+        if slice >= 0.0:
+          flt += slice * ( 0.1 ** to_f24(count2))
   return flt
 
 # this one is also good to use

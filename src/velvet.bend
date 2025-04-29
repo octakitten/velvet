@@ -115,10 +115,11 @@ import ./model.bend
 #   between layers, which allows us to store information within the network... indefinitely. it 
 #   might change form over time but yea... anyway, lets get to actually defining this function
 #   }
+def main:
 
-DEPTH = 6
-WIDTH = 256
-MAX = 999
+  DEPTH = 6
+  WIDTH = 256
+  MAX = 999
 
 # model = init_model(ones(WIDTH), WIDTH, DEPTH, DEPTH)
 

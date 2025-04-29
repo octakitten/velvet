@@ -224,13 +224,12 @@ def gen_layer_file(layer: Map(i24), path: String, index: u24):
   with IO:
     fdesc = IO/FS/open(path, "w")
     if layer == Map/Node:
-      index += 1
-      check = IO/FS/write(path, converting.i24_to_str(layer.value))
-      check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
-      check = gen_layer_file(layer.next, path, index)
+      IO/FS/write(path, i24_to_str(layer.value))
+      IO/FS/seek(path, index, IO/FS/SEEK_SET)
+      gen_layer_file(layer.next, path, index)
     elif layer == Map/Leaf:
       index += 1
-      check = IO/FS/write(path, i24_to_str(layer.value))
+      IO/FS/write(path, i24_to_str(layer.value))
       check = 0
     else:
       check = 0

@@ -9,7 +9,6 @@ type Model(T):
   Root { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
   Node { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
   Leaf { ~at: Map(T) }
-  None
 
 type Map(T):
   Node { ~value: T, ~next: Map(T) }

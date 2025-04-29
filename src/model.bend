@@ -228,13 +228,14 @@ def gen_layer_file(layer: Map(i24), path: String):
       case 0:
         check = IO/FS/write(path, get_by_index(layer, index))
       case _:
-        val = layer[index]
+        val = get_by_index(layer, index)
         match val:
           case Map/Node:
             check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
             check = IO/FS/write(path, val.value)
           case Map/Leaf:
-            check = None
+            check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
+            check = IO/FS/write(path, val.value)
       check = IO/FS/close(fdesc)
     return True
 

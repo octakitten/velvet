@@ -193,7 +193,7 @@ def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
 
 # this function here is used to arrange the layers into usable places so that we can save them to the disk more easily
 # eventually we'll have to find a way of actually loading after we've saved but we'll burn that bridge when we get there
-def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24) -> None:
+def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
   with IO:
     match model:
       case Model/Root:
@@ -214,7 +214,7 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24) -> None
         check = gen_mdl_dir(model.right, path, depth - 1, count)
       case Model/Leaf:
         check = gen_layer_file(model.at, path)
-    return
+    return True
 
 # here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse

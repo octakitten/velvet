@@ -181,17 +181,28 @@ def smap_to_f24(smap, count, precision):
       if slice >= 0.0:
         flt += slice * (10.0 ** to_f24(count2))
         return smap_to_f24(smap, count, precision)
+      else:
+        return smapto_f24(smap, count, precision)
     case _:
       if count2 <= precision:
         slice = smap[count2].value
         if slice >= 0.0:
-           flt += slice * (10.0 ** to_f24(count2))
-        count2 += 1
+          count2 += 1
+          flt += slice * (10.0 ** to_f24(count2))
+          return  smap_to_f24(smap, count, precision)
+        else:
+          count2 += 1
+          return smap_to_f24(smap, count, precision)
+
       elif count2 <= count:
         slice = get_at_index(smap, count2)
         if slice >= 0.0:
+          count2 += 1
           flt += slice * (10.0 ** to_f24(count2))
-        count2 += 1
+          return smap_to_f24(smap, count, precision)
+        else:
+          count2 += 1
+          return smap_to_f24(smap, count, precision)
       else:
         return flt
   return flt

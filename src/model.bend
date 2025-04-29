@@ -68,25 +68,22 @@ def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
 def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24):
   switch steps:
     case 0:
-      model = Model(i24)/Leaf(
+      return Model(i24)/Leaf(
         init_layer(vals, num_vals, type)
         )
-      return model
     case _:
       if steps == max:
-        model = Model(i24)/Root(
+        return Model(i24)/Root(
           ones(num_vals),
           init_model(vals, num_vals, steps - 1, max),
           init_model(vals, num_vals, steps - 1, max)
           )
       else:
-        model = Model(i24)/Node(
+        return Model(i24)/Node(
           ones(num_vals),
           init_model(vals, num_vals, steps - 1, max),
           init_model(vals, num_vals, steps - 1, max)
           )
-
-  return model
 
 # do you want the neurons to talk to lots of other neurons? make this higher
 # having problems with performance? make this lower

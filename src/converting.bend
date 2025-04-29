@@ -273,7 +273,6 @@ def get_precision(smap, count, precision) -> u24:
 def str_to_u24(str: String) -> u24:
   retval = 0
   count = str.length
-  count2 = 0
   smap = str_to_map(str, count)
   return smap_to_u24(smap, count, retval)
 
@@ -294,31 +293,10 @@ def smap_to_u24(smap, count, retval) -> u24:
 
 def str_to_i24(str: String) -> i24:
   retval = 0
-  count = 0
-  is_negative = false
-  match str:
-    case String/Cons:
-      if str.head == "-":
-        is_negative = true
-        count += 1
-      else:
-        count += 1
-    case String/Nil:
-      count += 0
-  match str:
-    case String/Cons:
-      count += 1
-    case String/Nil:
-      count += 0
-  smap = str_to_map(str, count)
-  count2 = 0
-  switch count2:
-    case count:
-    case _:
-      slice = smap[count2].value
-      if slice >= 0:
-        retval += slice * to_i24(10.0 ** to_f24(count2))
-        count2 += 1
-  if is_negative:
-    retval = -retval
-  return retval
+  count = str.length
+  smap = str_to_map(str, str.length)
+  if smap.head == "-":
+    count += 1
+    return (-1 * to_i24(smap_to_u24smap, count, retval))
+  else:
+    return to_i24(smap_to_u24(smap, count, retval))

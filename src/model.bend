@@ -200,18 +200,18 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24) -> None
         check = gen_layer_file(model.at, path)
         path += u24_to_str(count)
         count += 1
-        gen_mdl_dir(model.left, path, depth - 1, count)
+        check = gen_mdl_dir(model.left, path, depth - 1, count)
         path += u24_to_str(count)
         count += 1 + powseries(depth)
-        gen_mdl_dir(model.right, path, depth - 1, count)
+        check = gen_mdl_dir(model.right, path, depth - 1, count)
       case Model/Node:
-        gen_layer_file(model.at, path)
+        check = gen_layer_file(model.at, path)
         path += u24_to_str(count)
         count += 1
-        gen_mdl_dir(model.left, path, depth - 1, count)
+        check = gen_mdl_dir(model.left, path, depth - 1, count)
         path += u24_to_str(count)
         count += 1 + powseries(depth)
-        gen_mdl_dir(model.right, path, depth - 1, count)
+        check = gen_mdl_dir(model.right, path, depth - 1, count)
       case Model/Leaf:
         gen_layer_file(model.at, path)
     return

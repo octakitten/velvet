@@ -152,7 +152,7 @@ def str_to_map(str, count):
   bend count:
     when 0:
       return Map/Leaf
-    when _:
+    else:
       return Map/Node(
         str.head,
         str_to_map(str, count - 1)

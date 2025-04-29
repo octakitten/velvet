@@ -197,7 +197,7 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
   with IO:
     match model:
       case Model/Root:
-        check = gen_layer_file(model.at, path)
+        check = gen_layer_file(model.at, path, count)
         path += u24_to_str(count)
         count += 1
         check = gen_mdl_dir(model.left, path, depth - 1, count)
@@ -219,18 +219,17 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
 # here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
-def gen_layer_file(layer: Map(i24), path: String, index: u24 = 0):
+def gen_layer_file(layer: Map(i24), path: String, index: u24):
   with IO:
     fdesc = IO/FS/open(path, "w")
-    index = 0
     if layer is Map/Node:
       index += 1
-      check = IO/FS/write(path, layer.value)
+      check = IO/FS/write(path, i24_to_str(layer.value))
       check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
-      check = gen_layer_file(layer.next, path)
+      check = gen_layer_file(layer.next, path, index)
     elif layer is Map/Leaf:
       index += 1
-      check = IO/FS/write(path, layer.value)
+      check = IO/FS/write(path, i24_to_str(layer.value))
       check = True
     else:
       check = False

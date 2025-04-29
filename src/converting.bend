@@ -144,7 +144,7 @@ def char_to_f24(str: String) -> f24:
         case negative.head:
           return -1.0
         case _:
-           return 0.0
+          return 0.0
     case String/Nil:
       return 0.0
 

@@ -197,7 +197,7 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
   with IO:
     match model:
       case Model/Root:
-        gen_layer_file(model.at, path)
+        check = gen_layer_file(model.at, path)
         path += u24_to_str(count)
         count += 1
         gen_mdl_dir(model.left, path, depth - 1, count)
@@ -234,7 +234,7 @@ def gen_layer_file(layer: Map(i24), path: String):
             IO/FS/write(path, val.value)
           case Map/Leaf:
       IO/FS/close(fdesc)
-    return
+    return True
 
 # create a directory to save the model to, then save it to it. shrimple as dat.
 # only works on linux though.

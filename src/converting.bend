@@ -104,7 +104,7 @@ def f24_to_str(num: f24) -> f24:
   str += decimal_to_str(numdec)
   return str
             
-def char_to_f24(str: String) ->:
+def char_to_f24(str: String) -> f24:
   mode = 1.0
   match str:
     case String/Cons:

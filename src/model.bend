@@ -182,12 +182,11 @@ def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
   match model:
     case Model/Root:
       model.at = plus(model.left.at, model.right.at, model.at)
-      model.at = layer_shift(model.at, SHIFT_STEPS)
     case Model/Node:
-      model.at = plus(model.left.at, model.right.at, model.at)
-      upper.at = upper.at + model.at
-      update(model.left, model.at)
-      update(model.right, model.at)
+      upper.at = conditional_plus(model.at, upper.at, model.left.at)
+      upper.at = conditional_plus(model.at, upper.at, model.right.at)
+      model.left = update(model.left, model.at)
+      model.right = update(model.right, model.at)
     case Model/Leaf:
       upper.at = upper.at + model.at
   return model

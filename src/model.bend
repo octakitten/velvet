@@ -259,6 +259,6 @@ def save(model: Model(i24), name: String, depth: u24):
     port = open_bash()
     command = "mkdir -p " + path
     response = bash(port, command)
-    close_bash(port)
+    check = close_bash(port)
     gen_mdl_dir(model, path, depth, 0)
-    return
+    return True

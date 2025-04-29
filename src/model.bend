@@ -225,15 +225,15 @@ def gen_layer_file(layer: Map(i24), path: String):
     index = 0
     switch index:
       case 0:
-        IO/FS/write(path, layer[index].value)
+        check = IO/FS/write(path, layer[index].value)
       case _:
         val = layer[index]
         match val:
           case Map/Node:
-            IO/FS/seek(path, index, IO/FS/SEEK_SET)
-            IO/FS/write(path, val.value)
+            check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
+            check = IO/FS/write(path, val.value)
           case Map/Leaf:
-      IO/FS/close(fdesc)
+      check = IO/FS/close(fdesc)
     return True
 
 # create a directory to save the model to, then save it to it. shrimple as dat.

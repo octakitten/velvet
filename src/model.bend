@@ -234,7 +234,7 @@ def gen_layer_file(layer: Map(i24), path: String):
             IO/FS/write(path, val.value)
           case Map/Leaf:
       IO/FS/close(fdesc)
-      return
+    return
 
 # create a directory to save the model to, then save it to it. shrimple as dat.
 # only works on linux though.

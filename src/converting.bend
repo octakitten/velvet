@@ -208,12 +208,7 @@ def smap_to_f24(smap, count, precision):
 
 # this one is also good to use
 def str_to_f24(str: String) -> f24:
-  count = 0
-  match str:
-    case String/Cons:
-      count += 1
-    case String/Nil:
-      count += 0
+  count = str.length
   smap = str_to_map(str, count)
   precision = 0.0
   count2 = 0

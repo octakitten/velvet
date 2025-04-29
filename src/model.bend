@@ -234,6 +234,7 @@ def gen_layer_file(layer: Map(i24), path: String):
             check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
             check = IO/FS/write(path, val.value)
           case Map/Leaf:
+            check = None
       check = IO/FS/close(fdesc)
     return True
 

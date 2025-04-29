@@ -219,24 +219,22 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
 # here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
-def gen_layer_file(layer: Map(i24), path: String):
+def gen_layer_file(layer: Map(i24), path: String, index: u24 = 0):
   with IO:
     fdesc = IO/FS/open(path, "w")
     index = 0
-
-    switch index:
-      case 0:
-        check = IO/FS/write(path, get_by_index(layer, index))
-      case _:
-        val = get_by_index(layer, index)
-        match val:
-          case Map/Node:
-            check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
-            check = IO/FS/write(path, val.value)
-          case Map/Leaf:
-            check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
-            check = IO/FS/write(path, val.value)
-      check = IO/FS/close(fdesc)
+    if layer is Map/Node:
+      index += 1
+      check = IO/FS/write(path, layer.value)
+      check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
+      check = gen_layer_file(layer.next, path)
+    elif layer is Map/Leaf:
+      index += 1
+      check = IO/FS/write(path, layer.value)
+      check = True
+    else:
+      check = False
+    check = IO/FS/close(fdesc)
     return True
 
 def get_by_index(layer: Map(i24), index: u24) -> i24:
@@ -250,6 +248,7 @@ def get_by_index(layer: Map(i24), index: u24) -> i24:
           retval = get_by_index(layer.next, index - 1)
         case Map/Leaf:
           retval = layer.value
+  return retval
 
 # create a directory to save the model to, then save it to it. shrimple as dat.
 # only works on linux though.

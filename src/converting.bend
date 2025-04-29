@@ -185,7 +185,7 @@ def smap_to_f24(smap, count, precision):
         return smapto_f24(smap, count, precision)
     case _:
       if count2 <= precision:
-        slice = smap[count2].value
+        slice = get_at_index(smap, count2)
         if slice >= 0.0:
           count2 += 1
           flt += slice * (10.0 ** to_f24(count2))

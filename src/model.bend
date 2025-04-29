@@ -237,17 +237,15 @@ def gen_layer_file(layer: Map(i24), path: String, index: u24):
     return True
 
 def get_by_index(layer: Map(i24), index: u24) -> i24:
-  retval = +0
   switch index:
     case 0:
-      retval = layer.value
+      return layer.value
     case _:
       match layer:
         case Map/Node:
-          retval = get_by_index(layer.next, index - 1)
+          return get_by_index(layer.next, index - 1)
         case Map/Leaf:
-          retval = layer.value
-  return retval
+          return layer.value
 
 # create a directory to save the model to, then save it to it. shrimple as dat.
 # only works on linux though.

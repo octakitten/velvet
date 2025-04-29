@@ -11,8 +11,8 @@ type Model(T):
   Leaf { ~at: Map(T) }
 
 type Map(T):
-  Node { ~value: T, ~next: Map(T) }
-  Leaf { ~value: T }
+  Node { value: T, ~next: Map(T) }
+  Leaf { value: T }
 
 # you know i honestly dont know what this is for
 def identity(x):
@@ -225,17 +225,17 @@ def gen_layer_file(layer: Map(i24), path: String, index: u24):
     fdesc = IO/FS/open(path, "w")
     if layer == Map/Node:
       index += 1
-      check = IO/FS/write(path, i24_to_str(layer.value))
+      check = IO/FS/write(path, converting.i24_to_str(layer.value))
       check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
       check = gen_layer_file(layer.next, path, index)
     elif layer == Map/Leaf:
       index += 1
       check = IO/FS/write(path, i24_to_str(layer.value))
-      check = True
+      check = 0
     else:
-      check = False
+      check = 0
     check = IO/FS/close(fdesc)
-    return True
+    return 0
 
 def get_by_index(layer: Map(i24), index: u24) -> i24:
   switch index:

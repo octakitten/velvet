@@ -193,7 +193,7 @@ def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
 
 # this function here is used to arrange the layers into usable places so that we can save them to the disk more easily
 # eventually we'll have to find a way of actually loading after we've saved but we'll burn that bridge when we get there
-def gen_mdl_dir(model: Model(i24), path String, depth: u24, count: u24):
+def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
   with IO:
     match model:
       case Model/Root:

@@ -120,7 +120,7 @@ def main:
   DEPTH = 6
   WIDTH = 256
   MAX = 999
-  return
+  return 0
 
 # model = init_model(ones(WIDTH), WIDTH, DEPTH, DEPTH)
 

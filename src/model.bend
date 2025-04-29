@@ -6,12 +6,12 @@ import ./converting.bend
 # in the top level. its not stored anywhere in the model itself, but still needed
 # to do things like save the model to disk
 type Model(T):
-  Root { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
-  Node { ~at: Map(T), ~left: Model(T), ~right: Model(T) }
-  Leaf { ~at: Map(T) }
+  Root { ~at: Layer(T), ~left: Model(T), ~right: Model(T) }
+  Node { ~at: Layer(T), ~left: Model(T), ~right: Model(T) }
+  Leaf { ~at: Layer(T) }
 
-type Map(T):
-  Node { value: T, ~next: Map(T) }
+type Layer(T):
+  Node { value: T, ~next: Layer(T) }
   Leaf { value: T }
 
 # you know i honestly dont know what this is for
@@ -20,28 +20,28 @@ def identity(x):
 
 # inits a LAYER to be all zeros.
 # does NOT init a model
-def zeros(num_vals: u24) -> Map(i24):
+def zeros(num_vals: u24) -> Layer(i24):
   switch num_vals:
     case 0:
-      return Map(i24)/Leaf(
+      return Layer(i24)/Leaf(
         +0
         )
     case _:
-      return Map(i24)/Node(
+      return Layer(i24)/Node(
         +0,
         zeros(num_vals - 1)
         )
 
 # inits a LAYER to be all ones.
 # does NOT init a model.
-def ones(num_vals: u24) -> Map(i24):
+def ones(num_vals: u24) -> Layer(i24):
   switch num_vals:
     case 0:
-      return Map(i24)/Leaf(
+      return Layer(i24)/Leaf(
         +1
         )
     case _:
-      return Map(i24)/Node(
+      return Layer(i24)/Node(
         +1,
         ones(num_vals - 1)
         )
@@ -49,14 +49,14 @@ def ones(num_vals: u24) -> Map(i24):
 
 # used during the init_model function to create layers of neurons
 # dont need to use it if you're just initializing a model.
-def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
+def init_layer(vals: Layer(i24), num_vals: u24) -> Layer(i24):
   switch num_vals:
     case 0:
-      return Map(i24)/Leaf(
+      return Layer(i24)/Leaf(
         vals[num_vals]
         )
     case _:
-      return Map(i24)/Node(
+      return Layer(i24)/Node(
         vals[num_vals],
         init_layer(vals, num_vals - 1)
       )
@@ -64,7 +64,7 @@ def init_layer(vals: Map(i24), num_vals: u24) -> Map(i24):
 # bend doesnt define arrays, but it does "generate" lists and objects
 # this is the function you'll use to actually create a model with specific params.
 # i'll probably make a wrapper function at some point though
-def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24):
+def init_model(vals: Layer(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24):
   switch steps:
     case 0:
       return Model(i24)/Leaf(
@@ -121,7 +121,7 @@ def conditional_plus(a: i24, b: i24, c: i24) -> i24:
   else:
     return (a)
 
-#def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Map(i24):
+#def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Layer(i24):
 #  match model1:
 #    case Model/Root:
 #      model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at)
@@ -140,12 +140,12 @@ def conditional_plus(a: i24, b: i24, c: i24) -> i24:
 
 # used in the update function
 # this is what allows the functions in the root neuron layer to talk to each other
-def layer_shift(layer: Map(i24), steps: u24) -> Map(i24):
+def layer_shift(layer: Layer(i24), steps: u24) -> Layer(i24):
   prev_val = layer.value
   layer.value = layer_shift_helper2(layer)
   return layer_shift_helper(layer, prev_val, steps)
 
-def layer_shift_helper(current: Map(i24), prev_val: i24, steps: u24) -> Map(i24):
+def layer_shift_helper(current: Layer(i24), prev_val: i24, steps: u24) -> Layer(i24):
   switch steps:
     case 0:
       current.value = prev_val
@@ -157,11 +157,11 @@ def layer_shift_helper(current: Map(i24), prev_val: i24, steps: u24) -> Map(i24)
       steps -= 1
       return layer_shift_helper(current, prev_val, steps)
 
-def layer_shift_helper2(current: Map(i24)) -> i24:
+def layer_shift_helper2(current: Layer(i24)) -> i24:
   match current:
-    case Map/Leaf:
+    case Layer/Leaf:
       return current.value
-    case Map/Node:
+    case Layer/Node:
       return layer_shift_helper2(current.next)
     case _:
       return +0
@@ -220,31 +220,32 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
 # here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
-def gen_layer_file(layer: Map(i24), path: String, index: u24):
+def gen_layer_file(layer: Layer(i24), path: String, index: u24):
   with IO:
     fdesc = IO/FS/open(path, "w")
-    if layer == Map/Node:
-      IO/FS/write(path, i24_to_str(layer.value))
-      IO/FS/seek(path, index, IO/FS/SEEK_SET)
-      gen_layer_file(layer.next, path, index)
-    elif layer == Map/Leaf:
+    if layer == Layer/Node:
       index += 1
-      IO/FS/write(path, i24_to_str(layer.value))
+      check = IO/FS/write(path, i24_to_str(layer.value))
+      check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
+      check = gen_layer_file(layer.next, path, index)
+    elif layer == Layer/Leaf:
+      index += 1
+      check = IO/FS/write(path, i24_to_str(layer.value))
       check = 0
     else:
       check = 0
     check = IO/FS/close(fdesc)
     return 0
 
-def get_by_index(layer: Map(i24), index: u24) -> i24:
+def get_by_index(layer: Layer(i24), index: u24) -> i24:
   switch index:
     case 0:
       return layer.value
     case _:
       match layer:
-        case Map/Node:
+        case Layer/Node:
           return get_by_index(layer.next, index - 1)
-        case Map/Leaf:
+        case Layer/Leaf:
           return layer.value
 
 # create a directory to save the model to, then save it to it. shrimple as dat.

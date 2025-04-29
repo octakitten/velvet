@@ -225,7 +225,7 @@ def gen_layer_file(layer: Layer(i24), path: String, index: u24):
     fdesc = IO/FS/open(path, "w")
     if layer == Layer/Node:
       index += 1
-      check = IO/FS/write(path, i24_to_str(layer.value))
+      check = IO/FS/write(path, use i24_to_str(layer.value))
       check = IO/FS/seek(path, index, IO/FS/SEEK_SET)
       check = gen_layer_file(layer.next, path, index)
     elif layer == Layer/Leaf:

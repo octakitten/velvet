@@ -69,7 +69,7 @@ def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24
   switch steps:
     case 0:
       model = Model(i24)/Leaf(
-        model.at = init_layer(vals, num_vals, type)
+        init_layer(vals, num_vals, type)
         )
       return model
     case _:
@@ -85,6 +85,7 @@ def init_model(vals: Map(i24), num_vals: u24, steps: u24, max: u24) -> Model(i24
           init_model(vals, num_vals, steps - 1, max),
           init_model(vals, num_vals, steps - 1, max)
           )
+
   return model
 
 # do you want the neurons to talk to lots of other neurons? make this higher

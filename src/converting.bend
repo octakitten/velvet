@@ -120,31 +120,30 @@ def char_to_f24(str: String) -> f24:
   
   match str:
     case String/Cons:
-      match str.head:
-        case zero.head:
-          return 0.0
-        case one.head:
-          return 1.0
-        case two.head:
-          return 2.0
-        case three.head:
-          return 3.0
-        case four.head:
-          return 4.0
-        case five.head:
-          return 5.0
-        case six.head:
-          return 6.0
-        case seven.head:
-          return 7.0
-        case eight.head:
-          return 8.0
-        case nine.head:
-          return 9.0
-        case negative.head:
-          return -1.0
-        case _:
-          return 0.0
+      if str.head == zero.head:
+        return 0.0
+      elif str.head == one.head:
+        return 1.0
+      elif str.head == two.head:
+        return 2.0
+      elif str.head == three.head:
+        return 3.0
+      elif str.head == four.head:
+        return 4.0
+      elif str.head == five.head:
+        return 5.0
+      elif str.head == six.head:
+        return 6.0
+      elif str.head == seven.head:
+        return 7.0
+      elif str.head == eight.head:
+        return 8.0
+      elif str.head == nine.head:
+        return 9.0
+      elif str.head == negative.head:
+        return -1.0
+      else:
+        return 0.0
     case String/Nil:
       return 0.0
 
@@ -164,31 +163,30 @@ def char_to_u24(str: String) -> f24:
   
   match str:
     case String/Cons:
-      match str.head:
-        case zero.head:
-          return 0
-        case one.head:
-          return 1
-        case two.head:
-          return 2
-        case three.head:
-          return 3
-        case four.head:
-          return 4
-        case five.head:
-          return 5
-        case six.head:
-          return 6
-        case seven.head:
-          return 7
-        case eight.head:
-          return 8
-        case nine.head:
-          return 9
-        case negative.head:
-          return -1
-        case _:
-          return 0
+      if str.head == zero.head:
+        return 0
+      elif str.head == one.head:
+        return 1
+      elif str.head == two.head:
+        return 2
+      elif str.head == three.head:
+        return 3
+      elif str.head == four.head:
+        return 4
+      elif str.head == five.head:
+        return 5
+      elif str.head == six.head:
+        return 6
+      elif str.head == seven.head:
+        return 7
+      elif str.head == eight.head:
+        return 8
+      elif str.head == nine.head:
+        return 9
+      elif str.head == negative.head:
+        return -1
+      else:
+        return 0
     case String/Nil:
       return 0
 

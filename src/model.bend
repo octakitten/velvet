@@ -220,7 +220,7 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24):
 # here we actually save the layer file to disk
 # its important that we save it with a unique name otherwise itll overwrite a file we just saved or do something even worse
 # we handle naming of layers in the gen_mdl_dir() function though
-fun gen_layer_file(layer: Layer(i24), path: String, index: u24):
+def gen_layer_file(layer: Layer(i24), path: String, index: u24):
   with IO:
     fdesc = IO/FS/open(path, "w")
     if layer == Layer/Node:

@@ -182,14 +182,16 @@ def update(model: Model(i24), upper: Model(i24)) -> Model(i24):
   match model:
     case Model/Root:
       model.at = plus(model.left.at, model.right.at, model.at)
+      return model
     case Model/Node:
       upper.at = conditional_plus(model.at, upper.at, model.left.at)
       upper.at = conditional_plus(model.at, upper.at, model.right.at)
       model.left = update(model.left, model.at)
       model.right = update(model.right, model.at)
+      return model
     case Model/Leaf:
       upper.at = upper.at + model.at
-  return model
+      return model
 
 # this function here is used to arrange the layers into usable places so that we can save them to the disk more easily
 # eventually we'll have to find a way of actually loading after we've saved but we'll burn that bridge when we get there

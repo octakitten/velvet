@@ -213,7 +213,7 @@ def gen_mdl_dir(model: Model(i24), path: String, depth: u24, count: u24) -> None
         count += 1 + powseries(depth)
         check = gen_mdl_dir(model.right, path, depth - 1, count)
       case Model/Leaf:
-        gen_layer_file(model.at, path)
+        check = gen_layer_file(model.at, path)
     return
 
 # here we actually save the layer file to disk

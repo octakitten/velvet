@@ -122,19 +122,21 @@ def conditional_plus(a: i24, b: i24, c: i24) -> i24:
   else:
     return (a)
 
-def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Map(i24):
-  match model1:
-    case Model/Root:
-      model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at)
-      model1.left = accumulate(model1.left, model2.left)
-      model1.right = accumulate(model1.right, model2.right)
-    case Model/Node:
-      model1.at = plus(model1.at, model2.at, model1.at)
-      model1.left = accumulate(model1.left, model2.left)
-      model1.right = accumulate(model1.right, model2.right)
-    case Model/Leaf:
-      model1.at = plus(model1.at, model2.at, model1.at)
-  return model1
+#def accumulate(model1: Model(i24), model2: Model(i24), model3: Model(i24)) -> Map(i24):
+#  match model1:
+#    case Model/Root:
+#      model1.at = conditional_plus(model1.at, model2.at, model3.at, model1.at)
+#      model1.left = accumulate(model1.left, model2.left)
+#      model1.right = accumulate(model1.right, model2.right)
+#      return model1
+#    case Model/Node:
+#      model1.at = plus(model1.at, model2.at, model1.at)
+#      model1.left = accumulate(model1.left, model2.left)
+#      model1.right = accumulate(model1.right, model2.right)
+#      return model1
+#    case Model/Leaf:
+#      model1.at = plus(model1.at, model2.at, model1.at)
+#      return model1
 
 
 # used in the update function

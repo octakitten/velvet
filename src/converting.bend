@@ -150,9 +150,9 @@ def char_to_f24(str: String) -> f24:
 
 def str_to_map(str, count):
   bend count:
-    case 0:
+    when 0:
       return Map/Leaf
-    case _:
+    when _:
       return Map/Node(
         str.head,
         str_to_map(str, count - 1)

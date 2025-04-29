@@ -106,30 +106,42 @@ def f24_to_str(num: f24) -> f24:
             
 def char_to_f24(str: String) -> f24:
   mode = 1.0
+  zero = to_str(0)
+  one = to_str(1)
+  two = to_str(2)
+  three = to_str(3)
+  four = to_str(4)
+  five = to_str(5)
+  six = to_str(6)
+  seven = to_str(7)
+  eight = to_str(8)
+  nine = to_str(9)
+  negative = "-"
+  
   match str:
     case String/Cons:
       match str.head:
-        case "0":
+        case zero.head:
           return 0.0
-        case "1":
+        case one.head:
           return 1.0
-        case "2":
+        case two.head:
           return 2.0
-        case "3":
+        case three.head:
           return 3.0
-        case "4":
+        case four.head:
           return 4.0
-        case "5":
+        case five.head:
           return 5.0
-        case "6":
+        case six.head:
           return 6.0
-        case "7":
+        case seven.head:
           return 7.0
-        case "8":
+        case eight.head:
           return 8.0
-        case "9":
+        case nine.head:
           return 9.0
-        case ".":
+        case negative.head:
           return -1.0
         case _:
            return 0.0

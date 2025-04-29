@@ -25,4 +25,4 @@ def bash(port: IO/Port, cmd: String) -> String:
 def close_bash(port: IO/Port):
   with IO:
     * <- IO/DyLib/close(port)
-    return
+    return 0

@@ -223,9 +223,10 @@ def gen_layer_file(layer: Map(i24), path: String):
   with IO:
     fdesc = IO/FS/open(path, "w")
     index = 0
+
     switch index:
       case 0:
-        check = IO/FS/write(path, layer[index].value)
+        check = IO/FS/write(path, get_by_index(layer, index))
       case _:
         val = layer[index]
         match val:
@@ -235,6 +236,18 @@ def gen_layer_file(layer: Map(i24), path: String):
           case Map/Leaf:
       check = IO/FS/close(fdesc)
     return True
+
+def get_by_index(layer: Map(i24), index: u24) -> i24:
+  retval = +0
+  switch index:
+    case 0:
+      retval = layer.value
+    case _:
+      match layer:
+        case Map/Node:
+          retval = get_by_index(layer.next, index - 1)
+        case Map/Leaf:
+          retval = layer.value
 
 # create a directory to save the model to, then save it to it. shrimple as dat.
 # only works on linux though.

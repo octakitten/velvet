@@ -210,19 +210,21 @@ def smap_to_f24(smap, count, precision):
 def str_to_f24(str: String) -> f24:
   count = str.length
   smap = str_to_map(str, count)
-  precision = 0.0
-  count2 = 0
-  count3 = 0.0
-  switch count2:
-    case count:
-    case _:
-      slice = smap[count2].value
-      if slice == ".":
-        precision = count3
-        count2 += 1
-      else:
-        count2 += 1
+  precision = get_precision(str, count, 0)
   return smap_to_f24(smap, count, precision)
+
+def get_precision(smap, count, precision) -> u24:
+  switch count:
+    case 0:
+      return precision
+    case _:
+      if get_at_index(smap, count) == ".":
+        return precision
+      else:
+        count -= 1
+        precision += 1
+        return get_precision(smap, count, precision)
+
  
 # this one is good to use too
 def str_to_u24(str: String) -> u24:

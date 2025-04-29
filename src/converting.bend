@@ -289,7 +289,7 @@ def smap_to_u24(smap, count, retval) -> u24:
         return smap_to_u24(smap, count, retval)
 
 
-def str_to_i24(str: String) -> i24:
+fun str_to_i24(str) {
   retval = 0
   count = str.length
   smap = str_to_map(str, str.length)
@@ -298,3 +298,4 @@ def str_to_i24(str: String) -> i24:
     return (-1 * to_i24(smap_to_u24smap, count, retval))
   else:
     return to_i24(smap_to_u24(smap, count, retval))
+}

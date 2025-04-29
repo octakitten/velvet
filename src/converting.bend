@@ -1,16 +1,16 @@
 # { 
-    no conversions between datatypes yet? fine, i'll do it myself...
-    if it doesnt have a comment next to it saying to use it, its probably
-    an internally useful function rather than an outwardly facing thing
-    so be careful of using those.
-    the ones you'll want to use are:
-    u24_to_str
-    f24_to_str
-    i24_to_str
-    str_to_u24
-    str_to_f24
-    str_to_i24
-
+#    no conversions between datatypes yet? fine, i'll do it myself...
+#   if it doesnt have a comment next to it saying to use it, its probably
+#   an internally useful function rather than an outwardly facing thing
+#   so be careful of using those.
+#   the ones you'll want to use are:
+#   u24_to_str
+#   f24_to_str
+#   i24_to_str
+#   str_to_u24
+#   str_to_f24
+#   str_to_i24
+#
 # }
 
 def slice_numeral_f(num: f24) -> f24:

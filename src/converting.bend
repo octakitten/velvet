@@ -205,7 +205,6 @@ def smap_to_f24(smap, count, precision):
           return smap_to_f24(smap, count, precision)
       else:
         return flt
-  return flt
 
 # this one is also good to use
 def str_to_f24(str: String) -> f24:
